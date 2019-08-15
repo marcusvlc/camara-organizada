@@ -1,26 +1,32 @@
 
-module.exports = (sequelize, DataTypes) => {
-    const User = sequelize.define( "User", {
-      name: {
-        type: DataTypes.STRING,
-        allowNull: false
-      },
-      dni: {
-          type: DataTypes.INTEGER,
-          primaryKey: true,
-          allowNull: false
-      },
-      state: {
-          type: DataTypes.STRING(2),
-          allowNull: false
-      },
-      party: {
-          type: DataTypes.STRING
-      },
-      interestList: {
-          type: DataTypes.TEXT
-      }
-    });
+const Sequelize = require('sequelize')
+const db = require('../../database')
 
-    return User
-}
+const User = db.define( "Usuario", {
+    name: {
+    type: Sequelize.STRING,
+    allowNull: false
+    },
+    dni: {
+        type: Sequelize.INTEGER,
+        primaryKey: true,
+        allowNull: false
+    },
+    state: {
+        type: Sequelize.STRING(2),
+        allowNull: false
+    },
+    party: {
+        type: Sequelize.STRING
+    },
+    interestList: {
+        type: Sequelize.TEXT
+    }
+    
+}, {
+    freezeTableName: true,
+    tableName: 'Usuario',
+});
+
+module.exports = User
+
