@@ -44,4 +44,10 @@ public class UserService {
 		return registredUser;
 	}
 
+	public User findByDNI(String dni) throws ServletException {
+		
+		User user = userRepo.findById(dni).orElse(null);
+		
+		return user;
+	
 }
