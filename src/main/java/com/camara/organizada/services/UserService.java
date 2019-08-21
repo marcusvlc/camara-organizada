@@ -67,10 +67,10 @@ public class UserService {
 		if( user == null) {
 			throw new ServletException("Usuário não encontrado");
 		}
+		user.setInterestList(interestsList);
+		User updatedUser = userRepo.save(user);
 		
-		user = userRepo.updateInterestsList(user, interestsList);
-		
-		return user;
+		return updatedUser;
 	}
 
 
