@@ -44,10 +44,35 @@ public class UserService {
 		return registredUser;
 	}
 
-	public User findByDNI(String dni) throws ServletException {
+	public User findById(String dni) throws ServletException {
+		
+		if(!util.isValidDNI(dni)) {
+			throw new ServletException("DNI invalido!");
+
+		}
 		
 		User user = userRepo.findById(dni).orElse(null);
 		
 		return user;
+	}
+
+	public User updateInterestsList(String dni, String[] interestsList) throws ServletException {
+		if(!util.isValidDNI(dni)) {
+			throw new ServletException("DNI invalido!");
+
+		}
+		
+		User user = userRepo.findById(dni).orElse(null);
+		
+		if( user == null) {
+			throw new ServletException("Usuário não encontrado");
+		}
+		
+		user = userRepo.updateInterestsList(user, interestsList);
+		
+		return user;
+	}
+
+
 	
 }

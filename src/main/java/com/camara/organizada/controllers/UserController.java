@@ -31,9 +31,25 @@ public class UserController {
 		
 	}
 	
+	@PostMapping("/registerInterests/{dni}")
+	public ResponseEntity<User> registerUser(@PathVariable String dni, @RequestBody String[] interestsList) throws ServletException{
+		
+		User user = userService.updateInterestsList(dni, interestsList);
+		
+		
+		return new ResponseEntity<User>(user, HttpStatus.OK);
+		
+	}
+	
 	@GetMapping("/{dni}")
-	public String exibirPessoa(@PathVariable String dni) {
-		User u = userService.findByDNI(dni);
+	public ResponseEntity<User> exibirPessoa(@PathVariable String dni) throws ServletException{
+		User user = userService.findById(dni);
+		
+		if (user != null) { 
+			return new ResponseEntity<User>(user, HttpStatus.FOUND);
+		} else {
+			return new ResponseEntity<User>(user, HttpStatus.NOT_FOUND);
+		}
 	}
 
 }

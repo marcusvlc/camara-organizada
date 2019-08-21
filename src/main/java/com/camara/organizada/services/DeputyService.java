@@ -53,5 +53,19 @@ public class DeputyService {
 		
 		return null;
 	}
+	
+	public Deputy findById(String dni) throws ServletException {
+		
+		if(!util.isValidString(dni)) {
+			throw new ServletException("DNI invalido!");
+
+		}
+		
+		Deputy deputy = deputyRep.findById(dni).orElse(null);
+		
+		return deputy;
+	}
+	
+	
 
 }
