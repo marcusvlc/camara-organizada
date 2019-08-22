@@ -22,23 +22,22 @@ public class UserService {
 		
 		User isUserRegistred = userRepo.findById(user.getDni()).orElse(null);
 		
-		if(isUserRegistred != null) {
-			throw new ServletException("Usuário já registrado!");
-		}
-		
 		if(!util.isValidString(user.getDni()) || !util.isValidString(user.getName()) || !util.isValidString(user.getState())) {
 			throw new ServletException("Campos invalidos!");
 
-		}
-		
-		if(user.getState().length() != 2) {
-			throw new ServletException("Nome de estado inválido! Insira o formato de duas letras!");
 		}
 		
 		if(!util.isValidDNI(user.getDni())) {
 			throw new ServletException("DNI Inválido! Utilize apenas numeros!");
 		}
 		
+		if(isUserRegistred != null) {
+			throw new ServletException("Usuário já registrado!");
+		}
+		
+		if(user.getState().length() != 2) {
+			throw new ServletException("Nome de estado inválido! Insira o formato de duas letras!");
+		}
 		
 		User registredUser = userRepo.save(user);
 		return registredUser;
@@ -56,18 +55,19 @@ public class UserService {
 		return user;
 	}
 
-	public User updateInterestsList(String dni, String[] interestsList) throws ServletException {
+	public User updateInterestsList(String dni, String interestsList) throws ServletException {
 		if(!util.isValidDNI(dni)) {
 			throw new ServletException("DNI invalido!");
 
 		}
 		
+		String[] userInterests = interestsList.split(",");
 		User user = userRepo.findById(dni).orElse(null);
 		
 		if( user == null) {
 			throw new ServletException("Usuário não encontrado");
 		}
-		user.setInterestList(interestsList);
+		user.setInterestList(userInterests);
 		User updatedUser = userRepo.save(user);
 		
 		return updatedUser;

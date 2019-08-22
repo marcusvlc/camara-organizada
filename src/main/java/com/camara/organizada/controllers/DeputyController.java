@@ -1,6 +1,7 @@
 package com.camara.organizada.controllers;
 
 import javax.servlet.ServletException;
+import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -25,25 +26,21 @@ public class DeputyController {
 	private DeputyService deputyService;
 	
 	
-	@PostMapping("/register")
-	public ResponseEntity<Deputy> registerDeputy(@RequestBody Deputy deputy) throws ServletException{
-		
-		Deputy registredDeputy = deputyService.registerDeputy(deputy);
+	@PostMapping("/register/{person_dni}")
+	public ResponseEntity<Deputy> registerDeputy(@RequestBody Deputy deputy, @PathVariable String person_dni ) throws ServletException{
+		System.out.println(person_dni);
+		Deputy registredDeputy = deputyService.registerDeputy(deputy, person_dni);
 		
 		return new ResponseEntity<Deputy>(registredDeputy, HttpStatus.CREATED);
-		
 		
 	}
 	
 	@GetMapping("/{dni}")
 	public ResponseEntity<Deputy> exibirPessoa(@PathVariable String dni) throws ServletException{
-		Deputy deputy = deputyService.findById(dni);
-		if(deputy != null) {
-			return new ResponseEntity<Deputy>(deputy, HttpStatus.FOUND);
-		} else {
-			return new ResponseEntity<Deputy>(deputy, HttpStatus.NOT_FOUND);
-		}
-		
+		Deputy deputy = deputyService.findById(Long.parseLong(dni));
+	
+		return new ResponseEntity<Deputy>(deputy, HttpStatus.FOUND);
+			
 	}
 
 }
