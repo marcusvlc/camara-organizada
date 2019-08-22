@@ -64,13 +64,23 @@ public class DeputyService {
 		return deputyRep.save(deputy);
 	}
 	
-	public Deputy findById(Long dni) throws ServletException {
+	public Deputy findById(String dni) throws ServletException {
 		
-		Deputy deputy = deputyRep.findById(dni).orElse(null);
+		User user = userRep.findById(dni).orElse(null);
 		
-		if(deputy == null) {
-			throw new ServletException("O deputado procurado não existe");
+		if(user == null) {
+			throw new ServletException("Não existe um usuario com o DNI fornecido!");
+		} else {
+			if(user.getDeputy() == null) {
+				throw new ServletException("O DNI fornecido pertence a um usuário que não é deputado");
+
+			}
 		}
+		
+		Deputy deputy = user.getDeputy();
+		
+		//System.out.println(deputy.getApprovedLaws());
+
 		return deputy;
 	}
 	

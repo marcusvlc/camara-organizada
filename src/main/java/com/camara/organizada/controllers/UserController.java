@@ -42,13 +42,14 @@ public class UserController {
 	}
 	
 	@GetMapping("/{dni}")
-	public ResponseEntity<User> exibirPessoa(@PathVariable String dni) throws ServletException{
+	public ResponseEntity<User> getUser(@PathVariable String dni) throws ServletException{
 		User user = userService.findById(dni);
 		
 		if (user != null) { 
+			user.setDeputy(null);
 			return new ResponseEntity<User>(user, HttpStatus.FOUND);
 		} else {
-			return new ResponseEntity<User>(user, HttpStatus.NOT_FOUND);
+			return new ResponseEntity<User>(HttpStatus.NOT_FOUND);
 		}
 	}
 

@@ -36,9 +36,10 @@ public class DeputyController {
 	}
 	
 	@GetMapping("/{dni}")
-	public ResponseEntity<Deputy> exibirPessoa(@PathVariable String dni) throws ServletException{
-		Deputy deputy = deputyService.findById(Long.parseLong(dni));
-	
+	public ResponseEntity<Deputy> getDeputy(@PathVariable String dni) throws ServletException{
+		Deputy deputy = deputyService.findById(dni);
+		
+		deputy.setUser(null);
 		return new ResponseEntity<Deputy>(deputy, HttpStatus.FOUND);
 			
 	}
