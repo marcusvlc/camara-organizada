@@ -63,5 +63,17 @@ public class DeputyService {
 		
 		return deputyRep.save(deputy);
 	}
+	
+	public Deputy findById(Long dni) throws ServletException {
+		
+		Deputy deputy = deputyRep.findById(dni).orElse(null);
+		
+		if(deputy == null) {
+			throw new ServletException("O deputado procurado não existe");
+		}
+		return deputy;
+	}
+	
+	
 
 }

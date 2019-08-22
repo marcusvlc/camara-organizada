@@ -8,4 +8,5 @@ import com.camara.organizada.models.User;
 @Repository
 public interface UserRepository extends JpaRepository<User, String> {
 
+
 }

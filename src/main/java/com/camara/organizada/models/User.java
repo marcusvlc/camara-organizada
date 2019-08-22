@@ -20,7 +20,7 @@ public class User {
 	private String name;
 	private String state;
 	private String party;
-	private String interestList;
+	private String[] interestList;
 	
 	@OneToOne(cascade = CascadeType.ALL, mappedBy = "user")
 	private Deputy deputy;
@@ -67,10 +67,10 @@ public class User {
 	public void setParty(String party) {
 		this.party = party;
 	}
-	public String getInterestList() {
+	public String[] getInterestList() {
 		return interestList;
 	}
-	public void setInterestList(String interestList) {
+	public void setInterestList(String[] interestList) {
 		this.interestList = interestList;
 	}
 	

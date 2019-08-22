@@ -26,20 +26,29 @@ public class Util {
 		if(!isStringAllDigit(dni)) {
 			isValid = false;
 		}
-	      return isValid;
+		
+      return isValid;
 	}
 	
 	private boolean isStringAllDigit(String str) {
 		boolean isDigit = true;
 		
 		char[] chars = str.toCharArray();
-		
-	      for(char c : chars){
-	          if(!Character.isDigit(c)){
-	        	  isDigit = false;
-	          }
-	       }
-	      
+		int index = 0;
+		while (isDigit && index < chars.length){
+			if(!Character.isDigit(chars[index]) && (chars[index] != '-' && index == chars.length - 2)){
+				isDigit = false;
+	        }
+			
+			
+			
+			index++;
+	         
+       }
+		if(chars[chars.length - 2]!= '-') {
+			isDigit = false;
+		}
+			
 	      return isDigit;
 	      
 		
