@@ -6,6 +6,6 @@ import org.springframework.stereotype.Repository;
 import com.camara.organizada.models.Deputy;
 
 @Repository
-public interface DeputyRepository extends JpaRepository<Deputy, String> {
+public interface DeputyRepository extends JpaRepository<Deputy, Long> {
 
 }

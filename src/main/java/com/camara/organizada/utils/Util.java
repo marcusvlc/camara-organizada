@@ -1,5 +1,7 @@
 package com.camara.organizada.utils;
 
+import java.util.Date;
+
 public class Util {
 	
 	public Util() {
@@ -20,15 +22,39 @@ public class Util {
 	public boolean isValidDNI(String dni) {
 		
 		boolean isValid = true;
-		char[] chars = dni.toCharArray();
+		
+		if(!isStringAllDigit(dni)) {
+			isValid = false;
+		}
+	      return isValid;
+	}
+	
+	private boolean isStringAllDigit(String str) {
+		boolean isDigit = true;
+		
+		char[] chars = str.toCharArray();
 		
 	      for(char c : chars){
 	          if(!Character.isDigit(c)){
-	             isValid = false;
+	        	  isDigit = false;
 	          }
 	       }
 	      
-	      return isValid;
+	      return isDigit;
+	      
+		
+	}
+	
+	public boolean isValidDate(Date date) {
+		boolean isValid = true;				
+			
+		Date current_date = new Date();
+
+		if(date.after(current_date)) {
+			isValid = false;
+		}
+	
+		return isValid;
 	}
 
 }

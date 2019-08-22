@@ -1,12 +1,16 @@
 package com.camara.organizada.models;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.Inheritance;
 import javax.persistence.InheritanceType;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
-@Inheritance(strategy = InheritanceType.TABLE_PER_CLASS)
+import org.hibernate.annotations.GenericGenerator;
+
 @Entity
 @Table(name="User_Table")
 public class User {
@@ -18,10 +22,27 @@ public class User {
 	private String party;
 	private String interestList;
 	
+	@OneToOne(cascade = CascadeType.ALL, mappedBy = "user")
+	private Deputy deputy;
+	
 	public User() {
 		
 	}
 	
+	
+	
+	public Deputy getDeputy() {
+		return deputy;
+	}
+
+
+
+	public void setDeputy(Deputy deputy) {
+		this.deputy = deputy;
+	}
+
+
+
 	public String getDni() {
 		return dni;
 	}
