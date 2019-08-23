@@ -1,5 +1,7 @@
 package com.camara.organizada.models;
 
+import java.util.ArrayList;
+
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -11,6 +13,8 @@ import javax.persistence.Table;
 
 import org.hibernate.annotations.GenericGenerator;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+
 @Entity
 @Table(name="User_Table")
 public class User {
@@ -20,9 +24,10 @@ public class User {
 	private String name;
 	private String state;
 	private String party;
-	private String[] interestList;
+	private ArrayList<String> interestList;
 	
 	@OneToOne(cascade = CascadeType.ALL, mappedBy = "user")
+	@JsonBackReference
 	private Deputy deputy;
 	
 	public User() {
@@ -67,11 +72,11 @@ public class User {
 	public void setParty(String party) {
 		this.party = party;
 	}
-	public String[] getInterestList() {
+	public ArrayList<String> getInterestList() {
 		return interestList;
 	}
-	public void setInterestList(String[] interestList) {
-		this.interestList = interestList;
+	public void setInterestList(ArrayList<String> userInterests) {
+		this.interestList = userInterests;
 	}
 	
 	

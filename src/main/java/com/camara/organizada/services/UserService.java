@@ -1,6 +1,8 @@
 package com.camara.organizada.services;
 
 
+import java.util.ArrayList;
+
 import javax.servlet.ServletException;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -55,13 +57,13 @@ public class UserService {
 		return user;
 	}
 
-	public User updateInterestsList(String dni, String interestsList) throws ServletException {
+	public User updateInterestsList(String dni, ArrayList<String> interestsList) throws ServletException {
 		if(!util.isValidDNI(dni)) {
 			throw new ServletException("DNI invalido!");
 
 		}
 		
-		String[] userInterests = interestsList.split(",");
+		ArrayList<String> userInterests = interestsList;
 		User user = userRepo.findById(dni).orElse(null);
 		
 		if( user == null) {

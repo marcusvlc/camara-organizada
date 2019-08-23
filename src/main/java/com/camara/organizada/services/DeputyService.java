@@ -79,8 +79,6 @@ public class DeputyService {
 		
 		Deputy deputy = user.getDeputy();
 		
-		//System.out.println(deputy.getApprovedLaws());
-
 		return deputy;
 	}
 	
