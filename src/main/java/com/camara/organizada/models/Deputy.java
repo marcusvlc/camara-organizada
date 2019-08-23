@@ -12,6 +12,7 @@ import javax.persistence.ManyToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.PrimaryKeyJoinColumn;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 @Entity
@@ -30,6 +31,7 @@ public class Deputy {
 	private User user;
 	
 	@ManyToMany(mappedBy = "participants")
+	@JsonBackReference
 	private List<Commission> participations;
 	
 	
