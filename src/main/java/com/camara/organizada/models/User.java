@@ -11,6 +11,8 @@ import javax.persistence.Table;
 
 import org.hibernate.annotations.GenericGenerator;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+
 @Entity
 @Table(name="User_Table")
 public class User {
@@ -23,6 +25,7 @@ public class User {
 	private String[] interestList;
 	
 	@OneToOne(cascade = CascadeType.ALL, mappedBy = "user")
+	@JsonBackReference
 	private Deputy deputy;
 	
 	public User() {

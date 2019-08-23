@@ -39,7 +39,6 @@ public class DeputyController {
 	public ResponseEntity<Deputy> getDeputy(@PathVariable String dni) throws ServletException{
 		Deputy deputy = deputyService.findById(dni);
 		
-		deputy.setUser(null);
 		return new ResponseEntity<Deputy>(deputy, HttpStatus.FOUND);
 			
 	}
