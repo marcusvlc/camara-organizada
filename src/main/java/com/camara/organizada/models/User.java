@@ -1,5 +1,7 @@
 package com.camara.organizada.models;
 
+import java.util.ArrayList;
+
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -22,7 +24,7 @@ public class User {
 	private String name;
 	private String state;
 	private String party;
-	private String[] interestList;
+	private ArrayList<String> interestList;
 	
 	@OneToOne(cascade = CascadeType.ALL, mappedBy = "user")
 	@JsonBackReference
@@ -70,11 +72,11 @@ public class User {
 	public void setParty(String party) {
 		this.party = party;
 	}
-	public String[] getInterestList() {
+	public ArrayList<String> getInterestList() {
 		return interestList;
 	}
-	public void setInterestList(String[] interestList) {
-		this.interestList = interestList;
+	public void setInterestList(ArrayList<String> userInterests) {
+		this.interestList = userInterests;
 	}
 	
 	
