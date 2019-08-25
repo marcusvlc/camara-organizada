@@ -1,5 +1,12 @@
 package com.camara.organizada.services;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+import java.util.Date;
+import java.util.Map;
+
 import javax.servlet.ServletException;
 
 import org.hibernate.Hibernate;
@@ -27,24 +34,23 @@ public class DeputyService {
 	private Util util = new Util();
 	
 	
-	public Deputy registerDeputy(Deputy deputy, String dni) throws ServletException {
+	public Deputy registerDeputy(Map<String,String> deputy, String dni) throws ServletException, ParseException{
 		
-		// FALTANDO VALIDACAO DE DATA DE INICIO DO MANDATO.
+		if(!util.isValidString(deputy.get("date"))) {
+			throw new ServletException("Data de inicio do mandato invalida! Insira no formato DDMMYYY");
+		}
+		
+		LocalDate dateParsed = util.parseString2Date(deputy.get("date"));
+                 
+		
+		if(!util.isValidInitDate(dateParsed)) {
+			throw new ServletException("Data de inicio do mandato invalida! Ela deve ser anterior ou igual a data atual");
+		}
 		
 		if(!util.isValidDNI(dni)) {
 			throw new ServletException("DNI inválido!");
 		}
-		
-		if(deputy.getInitJob() == null) {
-			throw new ServletException("Data de inicio do mandato invalida! Insira no formato DDMMYYY");
-		}
-		
-		System.out.println(deputy.getInitJob());
-		
-		if(!util.isValidDate(deputy.getInitJob())) {
-			throw new ServletException("Data de inicio do mandato invalida! Ela deve ser anterior ou igual a data atual");
-		}
-		
+				
 		User isValidUser = userRep.findById(dni).orElse(null);
 		
 		if(isValidUser == null) {
@@ -56,12 +62,14 @@ public class DeputyService {
 
 		}
 		
-		//isValidUser.setDeputy(deputy);
-		deputy.setUser(isValidUser);
-		//userRep.saveAndFlush(isValidUser);
+		Deputy newDeputy = new Deputy(dateParsed); 
+		isValidUser.setDeputy(newDeputy);
+		newDeputy.setUser(isValidUser);
+		userRep.saveAndFlush(isValidUser);
 		
 		
-		return deputyRep.save(deputy);
+		return deputyRep.save(newDeputy);
+		
 	}
 	
 	public Deputy findById(String dni) throws ServletException {

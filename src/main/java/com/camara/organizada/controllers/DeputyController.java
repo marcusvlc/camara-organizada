@@ -1,5 +1,8 @@
 package com.camara.organizada.controllers;
 
+import java.text.ParseException;
+import java.util.Map;
+
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 
@@ -27,7 +30,7 @@ public class DeputyController {
 	
 	
 	@PostMapping("/register/{person_dni}")
-	public ResponseEntity<Deputy> registerDeputy(@RequestBody Deputy deputy, @PathVariable String person_dni ) throws ServletException{
+	public ResponseEntity<Deputy> registerDeputy(@RequestBody Map<String,String> deputy, @PathVariable String person_dni ) throws ServletException, ParseException{
 		System.out.println(person_dni);
 		Deputy registredDeputy = deputyService.registerDeputy(deputy, person_dni);
 		

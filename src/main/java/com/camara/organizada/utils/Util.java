@@ -1,5 +1,7 @@
 package com.camara.organizada.utils;
 
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.Date;
 
 public class Util {
@@ -36,12 +38,10 @@ public class Util {
 		char[] chars = str.toCharArray();
 		int index = 0;
 		while (isDigit && index < chars.length){
-			if(!Character.isDigit(chars[index]) && (chars[index] != '-' && index == chars.length - 2)){
+			if(!Character.isDigit(chars[index]) && (chars[index] == '-' && index != chars.length - 2)){
 				isDigit = false;
 	        }
-			
-			
-			
+				
 			index++;
 	         
        }
@@ -54,16 +54,24 @@ public class Util {
 		
 	}
 	
-	public boolean isValidDate(Date date) {
+	
+	public boolean isValidInitDate(LocalDate dateParsed) {
 		boolean isValid = true;				
 			
-		Date current_date = new Date();
+		LocalDate current_date = LocalDate.now();
 
-		if(date.after(current_date)) {
+		if(dateParsed.isAfter(current_date)) {
 			isValid = false;
 		}
 	
 		return isValid;
 	}
 
+	public LocalDate parseString2Date(String date) {
+		DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+                 
+        LocalDate dateParsed = LocalDate.parse(date, dateTimeFormatter);
+        
+        return dateParsed;
+	}
 }

@@ -1,5 +1,6 @@
 package com.camara.organizada.models;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -22,7 +23,7 @@ public class Deputy {
 	@GeneratedValue
 	private Long id;
 	
-	private Date initJob;
+	private LocalDate initJob;
 	private int approvedLaws;
 	
 	@OneToOne()
@@ -41,7 +42,11 @@ public class Deputy {
 	}
 	
 	
-	
+	public Deputy(LocalDate initJob) {
+		this.initJob = initJob;
+		this.approvedLaws = 0;
+		this.participations = new ArrayList<Commission>();
+	}
 	
 	
 
@@ -93,11 +98,11 @@ public class Deputy {
 
 
 
-	public Date getInitJob() {
+	public LocalDate getInitJob() {
 		return initJob;
 	}
 
-	public void setInitJob(Date initJob) {
+	public void setInitJob(LocalDate initJob) {
 		this.initJob = initJob;
 	}
 
