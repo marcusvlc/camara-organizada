@@ -2,7 +2,6 @@ package com.camara.organizada.models;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 import javax.persistence.Entity;
@@ -11,7 +10,6 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToMany;
 import javax.persistence.OneToOne;
-import javax.persistence.PrimaryKeyJoinColumn;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
@@ -42,9 +40,9 @@ public class Deputy {
 	}
 	
 	
-	public Deputy(LocalDate initJob) {
+	public Deputy(LocalDate initJob, int approvedLaws) {
 		this.initJob = initJob;
-		this.approvedLaws = 0;
+		this.approvedLaws = approvedLaws;
 		this.participations = new ArrayList<Commission>();
 	}
 	
