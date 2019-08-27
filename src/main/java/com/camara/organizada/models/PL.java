@@ -17,8 +17,9 @@ public class PL extends LegislativeProposal {
 		this.setCode(code);
 		this.setSummary(summary);
 		this.setInterests(interests);
-		this.setCurrentSituation(currentSituation);
 		this.setDocumentAddress(documentAddress);
+		this.setCurrentSituation("EM VOTACAO (CCJC)");
+
 		
 	}
 
