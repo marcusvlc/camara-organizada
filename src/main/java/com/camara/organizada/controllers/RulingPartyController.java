@@ -18,7 +18,7 @@ import com.camara.organizada.models.User;
 import com.camara.organizada.services.RulingPartyService;
 
 @RestController
-@RequestMapping("/rulingParty")
+@RequestMapping("/rulingparty")
 public class RulingPartyController {
 	
 	@Autowired

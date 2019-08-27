@@ -10,9 +10,6 @@ import javax.persistence.Table;
 public class RulingParty {
 
 	@Id
-	@GeneratedValue
-	private Long id;
-	
 	private String partyName;
 
 	public String getPartyName() {

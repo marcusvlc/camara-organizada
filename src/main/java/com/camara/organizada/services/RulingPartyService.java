@@ -22,6 +22,10 @@ public class RulingPartyService {
 		if(!util.isValidString(rulingParty.getPartyName())) {
 			throw new ServletException("Campos invalidos!");
 		}
+		
+		if(rulingPartyRepo.existsById(rulingParty.getPartyName())) {
+			throw new ServletException("Partido ja existente!");
+		}
 		RulingParty registredRulingParty = rulingPartyRepo.save(rulingParty);
 		return registredRulingParty;
 	}
