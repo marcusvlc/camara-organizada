@@ -1,5 +1,7 @@
 package com.camara.organizada.controllers;
 
+import java.util.List;
+
 import javax.servlet.ServletException;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -33,11 +35,11 @@ public class RulingPartyController {
 	
 	
 	@GetMapping("/show")
-	public ResponseEntity<RulingParty[]> showRulingParty() {
+	public ResponseEntity<List<RulingParty>> showRulingParty() {
 		
-		RulingParty[] parties =  rulingPartyService.getRulingParties();
+		List<RulingParty> parties =  rulingPartyService.getRulingParties();
 		
-		return new ResponseEntity<RulingParty[]>(parties, HttpStatus.OK);
+		return new ResponseEntity<List<RulingParty>>(parties, HttpStatus.OK);
 		
 	}
 

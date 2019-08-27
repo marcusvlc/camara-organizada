@@ -1,17 +1,34 @@
 package com.camara.organizada.services;
 
-import com.camara.organizada.models.RulingParty;
+import java.util.List;
 
+import javax.servlet.ServletException;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import com.camara.organizada.models.RulingParty;
+import com.camara.organizada.repositories.RulingPartyRepository;
+import com.camara.organizada.utils.Util;
+
+@Service
 public class RulingPartyService {
 
-	public RulingParty registerRulingParty(RulingParty rulingParty) {
-		// TODO Auto-generated method stub
-		return null;
+	private Util util = new Util();
+	@Autowired
+	private RulingPartyRepository rulingPartyRepo;
+	
+	public RulingParty registerRulingParty(RulingParty rulingParty) throws ServletException {
+		if(!util.isValidString(rulingParty.getPartyName())) {
+			throw new ServletException("Campos invalidos!");
+		}
+		RulingParty registredRulingParty = rulingPartyRepo.save(rulingParty);
+		return registredRulingParty;
 	}
 
-	public RulingParty[] getRulingParties() {
-		// TODO Auto-generated method stub
-		return null;
+	public List<RulingParty> getRulingParties() {
+		List<RulingParty> allRulingParties = rulingPartyRepo.findAll();
+		return allRulingParties;
 	}
 
 }
