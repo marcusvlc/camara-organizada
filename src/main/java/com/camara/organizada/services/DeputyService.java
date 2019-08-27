@@ -34,13 +34,13 @@ public class DeputyService {
 	private Util util = new Util();
 	
 	
-	public Deputy registerDeputy(Map<String,String> deputy, String dni) throws ServletException, ParseException{
+	public Deputy registerDeputy(Map<String,Object> deputy, String dni) throws ServletException, ParseException{
 		
-		if(!util.isValidString(deputy.get("date"))) {
+		if(!util.isValidString((String) deputy.get("initJob"))) {
 			throw new ServletException("Data de inicio do mandato invalida! Insira no formato DDMMYYY");
 		}
 		
-		LocalDate dateParsed = util.parseString2Date(deputy.get("date"));
+		LocalDate dateParsed = util.parseString2Date((String) deputy.get("initJob"));
                  
 		
 		if(!util.isValidInitDate(dateParsed)) {
@@ -62,10 +62,10 @@ public class DeputyService {
 
 		}
 		
-		Deputy newDeputy = new Deputy(dateParsed); 
-		isValidUser.setDeputy(newDeputy);
+		
+		Deputy newDeputy = new Deputy(dateParsed, (int) deputy.get("approvedLaws")); 
+
 		newDeputy.setUser(isValidUser);
-		userRep.saveAndFlush(isValidUser);
 		
 		
 		return deputyRep.save(newDeputy);

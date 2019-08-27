@@ -14,7 +14,7 @@ public class Util {
 		
 		boolean isValid = true;
 		
-		if(str.equals(null) || str.trim().isEmpty()) {
+		if(str == null || str.trim().isEmpty()) {
 			isValid = false;
 		}
 		

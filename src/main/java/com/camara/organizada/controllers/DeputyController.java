@@ -30,7 +30,7 @@ public class DeputyController {
 	
 	
 	@PostMapping("/register/{person_dni}")
-	public ResponseEntity<Deputy> registerDeputy(@RequestBody Map<String,String> deputy, @PathVariable String person_dni ) throws ServletException, ParseException{
+	public ResponseEntity<Deputy> registerDeputy(@RequestBody Map<String,Object> deputy, @PathVariable String person_dni ) throws ServletException, ParseException{
 		System.out.println(person_dni);
 		Deputy registredDeputy = deputyService.registerDeputy(deputy, person_dni);
 		
