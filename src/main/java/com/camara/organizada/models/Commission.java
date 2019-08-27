@@ -18,6 +18,17 @@ public class Commission {
 	@ManyToMany
 	private List<Deputy> participants;
 	
+	@ManyToMany
+	private List<Voting> votingProposals;
+	
+	public List<Voting> getVotingProposals() {
+		return votingProposals;
+	}
+
+	public void setVotingProposals(List<Voting> votingProposals) {
+		this.votingProposals = votingProposals;
+	}
+
 	public Commission() {
 		this.participants = new ArrayList<Deputy>();
 	}
