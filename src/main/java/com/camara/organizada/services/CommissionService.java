@@ -1,6 +1,8 @@
 package com.camara.organizada.services;
 
 
+import java.util.Iterator;
+
 import javax.servlet.ServletException;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,6 +16,7 @@ import com.camara.organizada.models.Voting;
 import com.camara.organizada.repositories.CommissionRepository;
 import com.camara.organizada.repositories.PLRepository;
 import com.camara.organizada.repositories.UserRepository;
+import com.camara.organizada.repositories.VotingRepository;
 import com.camara.organizada.utils.Util;
 
 @Service
@@ -26,8 +29,11 @@ public class CommissionService {
 	private UserRepository userRep;
 	
 	private Util utils = new Util();
-
+	@Autowired
 	private PLRepository proposalRep;
+	
+	@Autowired
+	private VotingRepository votingRepository; 
 	
 	
 	public Commission registerCommission(String initials, String dnis, String theme) throws ServletException {
@@ -77,7 +83,7 @@ public class CommissionService {
 		if(!utils.isValidString(theme) || !utils.isValidString(proposalCode) || !utils.isValidString(rulingProposalStatus) || !utils.isValidString(local)) {
 			throw new ServletException("Campos inválidos ou vazio!");
 		}
-		
+
 		Commission isRegistredCommission = commissionRep.findById(theme).orElse(null);
 		
 		LegislativeProposal isRegistredProposal= proposalRep.findById(theme).orElse(null);
@@ -85,25 +91,38 @@ public class CommissionService {
 		if(isRegistredCommission == null) {
 			throw new ServletException("Não existe nenhuma comissão registrada com esse tema!");
 		}
-		if(isRegistredCommission.getVotingProposals().stream().filter(o -> o.getProject().equals(proposalCode)).findFirst().isPresent()) {
+		
+		if(commissionPresent(isRegistredCommission, proposalCode)) {
 			throw new ServletException("Esta comissão já votou a esta proposta");
 		}
 		
 		String votingStatus = isRegistredCommission.passLaw(isRegistredProposal, rulingProposalStatus);
 	
+		System.out.println("--------------------------------------------");
+		System.out.println("--------------------------------------------");
 		Voting newVoting = new Voting();
 		newVoting.setLocal(local);
 		newVoting.setVotingStatus(votingStatus);
-		newVoting.setProject(proposalCode);
+		newVoting.setProposalCode(proposalCode);
+		newVoting.setRulingProposalStatus(rulingProposalStatus);
 		
-		isRegistredCommission.setVotingProposals(newVoting);
+		Voting savedVote = votingRepository.save(newVoting);
+		isRegistredCommission.setVotingProposals(savedVote);
 		
 		Commission updatedCommission = commissionRep.save(isRegistredCommission);
 
 		return updatedCommission;
 	}
 
-
+	public boolean commissionPresent(Commission commission, String proposalCode){
+		for (Iterator iterator = commission.getVotingProposals().iterator(); iterator.hasNext();) {
+			Voting vote= (Voting) iterator.next();
+			if(vote.equals(proposalCode)) {
+				return true;
+			}
+		}
+		return false;
+	}
 
 
 }

@@ -22,16 +22,17 @@ public class Commission {
 	@ManyToMany
 	private List<Voting> votingProposals;
 	
+	public Commission() {
+		this.participants = new ArrayList<Deputy>();
+		this.votingProposals = new ArrayList<Voting>();
+	}
+	
 	public List<Voting> getVotingProposals() {
 		return votingProposals;
 	}
 
 	public void setVotingProposals(Voting votingProposals) {
 		this.votingProposals.add(votingProposals);
-	}
-
-	public Commission() {
-		this.participants = new ArrayList<Deputy>();
 	}
 
 	public String getInitials() {
@@ -64,7 +65,8 @@ public class Commission {
 		String free = "LIVRE";
 		int inFavor;
 		String votingStatus;
-		if (proposal.equals(free)) {
+		if (rulingProposalStatus.equals(free)) {
+			System.out.println("chamada partitionVotes");
 			inFavor = partitionVotes(proposal);
 		}
 		else {
@@ -91,8 +93,10 @@ public class Commission {
 
 	private int partitionVotes(LegislativeProposal proposal) {
 		int votesSum = 0;
-		for (Iterator iterator = participants.iterator(); iterator.hasNext();) {
+		System.out.println("partitionVotes");
+		for (Iterator iterator = this.participants.iterator(); iterator.hasNext();) {
 			Deputy deputy = (Deputy) iterator.next();
+			System.out.println("partitionVotes2");
 			votesSum += deputy.vote(proposal.getInterests());
 		}
 		return votesSum;

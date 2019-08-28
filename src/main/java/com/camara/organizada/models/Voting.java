@@ -33,10 +33,10 @@ public class Voting {
 	public void setVotingStatus(String votingStatus) {
 		this.votingStatus = votingStatus;
 	}
-	public String getProject() {
+	public String getproposalCode() {
 		return proposalCode;
 	}
-	public void setProject(String project) {
+	public void setProposalCode(String proposalCode) {
 		this.proposalCode = proposalCode;
 	}
 	public String getRulingProposalStatus() {
