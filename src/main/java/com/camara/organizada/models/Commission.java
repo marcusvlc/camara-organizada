@@ -59,21 +59,32 @@ public class Commission {
 		this.participants = participants;
 	}
 	
-	public String passLaw(LegislativeProposal proposal, String rulingProposalStatus) {
+	public String passLaw(LegislativeProposal proposal, String rulingProposalStatus, List<RulingParty> rulingParties ) {
 		String ruling = "GOVERNISTA";
 		String counterPart= "OPOSICAO";
 		String free = "LIVRE";
-		int inFavor;
+		int inFavorTotalVotes;
 		String votingStatus;
+		
+		
 		if (rulingProposalStatus.equals(free)) {
-			System.out.println("chamada partitionVotes");
-			inFavor = partitionVotes(proposal);
+			
+			inFavorTotalVotes = voteFreeProposal(proposal);
 		}
 		else {
-			inFavor = partitionRulingPosition(rulingProposalStatus);
+			
+			inFavorTotalVotes = voteAccording2RulingPosition(rulingProposalStatus, rulingParties);
 		}
 		
-		if (inFavor >= (this.getParticipants().size()/2) +1) {
+		votingStatus = resolvingStatus(inFavorTotalVotes);
+		
+		return votingStatus;
+	}
+
+	private String resolvingStatus(int inFavorTotalVotes) {
+		String votingStatus;
+		
+		if (inFavorTotalVotes >= (this.getParticipants().size()/2) +1) {
 			votingStatus = "APROVAR";
 		} else {
 			votingStatus = "REJEITAR";
@@ -81,24 +92,27 @@ public class Commission {
 		return votingStatus;
 	}
 
-	private int partitionRulingPosition(String rulingProposalStatus) {
+	private int voteAccording2RulingPosition(String rulingProposalStatus, List<RulingParty> rulingParties) {
 		int votesSum = 0;
 		for (Iterator iterator = participants.iterator(); iterator.hasNext();) {
 			Deputy deputy = (Deputy) iterator.next();
 			//Ajustar govermentVote
-			votesSum += deputy.govermentVote(rulingProposalStatus);
+			votesSum += deputy.govermentVote(rulingProposalStatus, rulingParties);
 		}
 		return votesSum;
 	}
 
-	private int partitionVotes(LegislativeProposal proposal) {
+	private int voteFreeProposal(LegislativeProposal proposal) {
 		int votesSum = 0;
-		System.out.println("partitionVotes");
+		String proposalInterests = proposal.getInterests();
 		for (Iterator iterator = this.participants.iterator(); iterator.hasNext();) {
 			Deputy deputy = (Deputy) iterator.next();
-			System.out.println("partitionVotes2");
-			votesSum += deputy.vote(proposal.getInterests());
+			System.out.println(deputy);
+			System.out.println(proposal);
+			votesSum += deputy.vote(proposalInterests);
 		}
+		System.out.println("==================================");
+		System.out.println(votesSum);
 		return votesSum;
 		
 	}

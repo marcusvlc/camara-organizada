@@ -2,6 +2,7 @@ package com.camara.organizada.services;
 
 
 import java.util.Iterator;
+import java.util.List;
 
 import javax.servlet.ServletException;
 
@@ -11,10 +12,14 @@ import org.springframework.stereotype.Service;
 
 import com.camara.organizada.models.Commission;
 import com.camara.organizada.models.LegislativeProposal;
+import com.camara.organizada.models.RulingParty;
 import com.camara.organizada.models.User;
 import com.camara.organizada.models.Voting;
 import com.camara.organizada.repositories.CommissionRepository;
+import com.camara.organizada.repositories.PECRepository;
+import com.camara.organizada.repositories.PLPRepository;
 import com.camara.organizada.repositories.PLRepository;
+import com.camara.organizada.repositories.RulingPartyRepository;
 import com.camara.organizada.repositories.UserRepository;
 import com.camara.organizada.repositories.VotingRepository;
 import com.camara.organizada.utils.Util;
@@ -34,6 +39,14 @@ public class CommissionService {
 	
 	@Autowired
 	private VotingRepository votingRepository; 
+	@Autowired
+	private RulingPartyRepository rulingPartyRepository;
+	@Autowired
+	private PLRepository PLRep;
+	@Autowired
+	private PLPRepository PLPRep;
+	@Autowired
+	private PECRepository PECRep; 
 	
 	
 	public Commission registerCommission(String initials, String dnis, String theme) throws ServletException {
@@ -86,7 +99,7 @@ public class CommissionService {
 
 		Commission isRegistredCommission = commissionRep.findById(theme).orElse(null);
 		
-		LegislativeProposal isRegistredProposal= proposalRep.findById(theme).orElse(null);
+		LegislativeProposal isRegistredProposal = findPL(proposalCode);
 		
 		if(isRegistredCommission == null) {
 			throw new ServletException("Não existe nenhuma comissão registrada com esse tema!");
@@ -96,15 +109,11 @@ public class CommissionService {
 			throw new ServletException("Esta comissão já votou a esta proposta");
 		}
 		
-		String votingStatus = isRegistredCommission.passLaw(isRegistredProposal, rulingProposalStatus);
+		List<RulingParty> rulingParties = rulingPartyRepository.findAll();
+		
+		String votingStatus = isRegistredCommission.passLaw(isRegistredProposal, rulingProposalStatus, rulingParties);
 	
-		System.out.println("--------------------------------------------");
-		System.out.println("--------------------------------------------");
-		Voting newVoting = new Voting();
-		newVoting.setLocal(local);
-		newVoting.setVotingStatus(votingStatus);
-		newVoting.setProposalCode(proposalCode);
-		newVoting.setRulingProposalStatus(rulingProposalStatus);
+		Voting newVoting = createVoting(proposalCode, rulingProposalStatus, local, votingStatus);
 		
 		Voting savedVote = votingRepository.save(newVoting);
 		isRegistredCommission.setVotingProposals(savedVote);
@@ -112,6 +121,30 @@ public class CommissionService {
 		Commission updatedCommission = commissionRep.save(isRegistredCommission);
 
 		return updatedCommission;
+	}
+
+
+	private Voting createVoting(String proposalCode, String rulingProposalStatus, String local, String votingStatus) {
+		Voting newVoting = new Voting();
+		newVoting.setLocal(local);
+		newVoting.setVotingStatus(votingStatus);
+		newVoting.setProposalCode(proposalCode);
+		newVoting.setRulingProposalStatus(rulingProposalStatus);
+		return newVoting;
+	}
+
+
+	private LegislativeProposal findPL(String proposalCode) {
+		 LegislativeProposal isRegistredProposal = null;
+		if (PECRep.findById(proposalCode) != null) {
+			isRegistredProposal = PECRep.findById(proposalCode).orElse(null);
+		} else if(PLPRep.findById(proposalCode) != null) {
+			isRegistredProposal = PLPRep.findById(proposalCode).orElse(null);
+		}else if(PLRep.findById(proposalCode) != null) {
+			isRegistredProposal = PLRep.findById(proposalCode).orElse(null);
+			System.out.println(isRegistredProposal);
+		}
+		return isRegistredProposal;
 	}
 
 	public boolean commissionPresent(Commission commission, String proposalCode){

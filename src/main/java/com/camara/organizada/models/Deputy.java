@@ -115,6 +115,7 @@ public class Deputy {
 
 	public int vote(String proposalInterests) {
 		int voteValue = 0;
+		System.out.println(this.getUser());
 		if(this.getUser().getInterestList().contains(proposalInterests)) {
 			voteValue = 1;
 		}
@@ -122,7 +123,7 @@ public class Deputy {
 	}
 
 
-	public int govermentVote(String rulingProposalStatus) {
+	public int govermentVote(String rulingProposalStatus, List<RulingParty> rulingParties) {
 		// TODO Auto-generated method stub
 		// como saber se o partido é ruling?
 		return 0;
