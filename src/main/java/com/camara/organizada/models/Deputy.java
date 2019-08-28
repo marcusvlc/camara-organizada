@@ -111,6 +111,22 @@ public class Deputy {
 	public void setApprovedLaws(int approvedLaws) {
 		this.approvedLaws = approvedLaws;
 	}
+
+
+	public int vote(String proposalInterests) {
+		int voteValue = 0;
+		if(this.getUser().getInterestList().contains(proposalInterests)) {
+			voteValue = 1;
+		}
+		return voteValue;
+	}
+
+
+	public int govermentVote(String rulingProposalStatus) {
+		// TODO Auto-generated method stub
+		// como saber se o partido é ruling?
+		return 0;
+	}
 	
 	
 

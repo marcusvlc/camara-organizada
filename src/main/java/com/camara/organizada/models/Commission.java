@@ -1,6 +1,7 @@
 package com.camara.organizada.models;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 import javax.persistence.Entity;
@@ -25,8 +26,8 @@ public class Commission {
 		return votingProposals;
 	}
 
-	public void setVotingProposals(List<Voting> votingProposals) {
-		this.votingProposals = votingProposals;
+	public void setVotingProposals(Voting votingProposals) {
+		this.votingProposals.add(votingProposals);
 	}
 
 	public Commission() {
@@ -57,6 +58,45 @@ public class Commission {
 		this.participants = participants;
 	}
 	
-	
+	public String passLaw(LegislativeProposal proposal, String rulingProposalStatus) {
+		String ruling = "GOVERNISTA";
+		String counterPart= "OPOSICAO";
+		String free = "LIVRE";
+		int inFavor;
+		String votingStatus;
+		if (proposal.equals(free)) {
+			inFavor = partitionVotes(proposal);
+		}
+		else {
+			inFavor = partitionRulingPosition(rulingProposalStatus);
+		}
+		
+		if (inFavor >= (this.getParticipants().size()/2) +1) {
+			votingStatus = "APROVAR";
+		} else {
+			votingStatus = "REJEITAR";
+		}
+		return votingStatus;
+	}
+
+	private int partitionRulingPosition(String rulingProposalStatus) {
+		int votesSum = 0;
+		for (Iterator iterator = participants.iterator(); iterator.hasNext();) {
+			Deputy deputy = (Deputy) iterator.next();
+			//Ajustar govermentVote
+			votesSum += deputy.govermentVote(rulingProposalStatus);
+		}
+		return votesSum;
+	}
+
+	private int partitionVotes(LegislativeProposal proposal) {
+		int votesSum = 0;
+		for (Iterator iterator = participants.iterator(); iterator.hasNext();) {
+			Deputy deputy = (Deputy) iterator.next();
+			votesSum += deputy.vote(proposal.getInterests());
+		}
+		return votesSum;
+		
+	}
 
 }

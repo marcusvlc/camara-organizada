@@ -16,9 +16,9 @@ public class Voting {
 	private Long id;
 	
 	private String local;
-	private VotingStatus votingStatus;
-	@OneToOne
-	private LegislativeProposal project;
+	private String votingStatus;
+	private String rulingProposalStatus;
+	private String proposalCode;
 	
 	
 	public String getLocal() {
@@ -27,16 +27,22 @@ public class Voting {
 	public void setLocal(String local) {
 		this.local = local;
 	}
-	public VotingStatus getVotingStatus() {
+	public String getVotingStatus() {
 		return votingStatus;
 	}
-	public void setVotingStatus(VotingStatus votingStatus) {
+	public void setVotingStatus(String votingStatus) {
 		this.votingStatus = votingStatus;
 	}
-	public LegislativeProposal getProject() {
-		return project;
+	public String getProject() {
+		return proposalCode;
 	}
-	public void setProject(LegislativeProposal project) {
-		this.project = project;
+	public void setProject(String project) {
+		this.proposalCode = proposalCode;
+	}
+	public String getRulingProposalStatus() {
+		return rulingProposalStatus;
+	}
+	public void setRulingProposalStatus(String rulingProposalStatus) {
+		this.rulingProposalStatus = rulingProposalStatus;
 	}
 }
