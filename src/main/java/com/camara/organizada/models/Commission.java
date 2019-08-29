@@ -1,6 +1,7 @@
 package com.camara.organizada.models;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 import javax.persistence.Entity;
@@ -18,8 +19,20 @@ public class Commission {
 	@ManyToMany
 	private List<Deputy> participants;
 	
+	@ManyToMany
+	private List<Voting> votingProposals;
+	
 	public Commission() {
 		this.participants = new ArrayList<Deputy>();
+		this.votingProposals = new ArrayList<Voting>();
+	}
+	
+	public List<Voting> getVotingProposals() {
+		return votingProposals;
+	}
+
+	public void setVotingProposals(Voting votingProposals) {
+		this.votingProposals.add(votingProposals);
 	}
 
 	public String getInitials() {
@@ -46,6 +59,64 @@ public class Commission {
 		this.participants = participants;
 	}
 	
-	
+	public String passLaw(LegislativeProposal proposal, String rulingProposalStatus, List<RulingParty> rulingParties ) {
+		String ruling = "GOVERNISTA";
+		String counterPart= "OPOSICAO";
+		String free = "LIVRE";
+		int inFavorTotalVotes;
+		String votingStatus;
+		
+		
+		if (rulingProposalStatus.equals(free)) {
+			
+			inFavorTotalVotes = voteFreeProposal(proposal);
+		}
+		else {
+			
+			inFavorTotalVotes = voteAccording2RulingPosition(rulingProposalStatus, rulingParties);
+		}
+		
+		System.out.println(inFavorTotalVotes);
+		
+		votingStatus = resolvingStatus(inFavorTotalVotes);
+		
+		return votingStatus;
+	}
+
+	private String resolvingStatus(int inFavorTotalVotes) {
+		String votingStatus;
+		
+		if (inFavorTotalVotes >= (this.getParticipants().size()/2) +1) {
+			votingStatus = "APROVAR";
+		} else {
+			votingStatus = "REJEITAR";
+		}
+		return votingStatus;
+	}
+
+	private int voteAccording2RulingPosition(String rulingProposalStatus, List<RulingParty> rulingParties) {
+		int votesSum = 0;
+		for (Iterator iterator = participants.iterator(); iterator.hasNext();) {
+			Deputy deputy = (Deputy) iterator.next();
+			//Ajustar govermentVote
+			votesSum += deputy.govermentVote(rulingProposalStatus, rulingParties);
+		}
+		return votesSum;
+	}
+
+	private int voteFreeProposal(LegislativeProposal proposal) {
+		int votesSum = 0;
+		System.out.println("CHEGOOOOOOOOOOOOOOOOOOOOOO");
+		String proposalInterests = proposal.getInterests();
+		for (Iterator iterator = this.participants.iterator(); iterator.hasNext();) {
+			Deputy deputy = (Deputy) iterator.next();
+
+			votesSum += deputy.vote(proposalInterests);
+		}
+		System.out.println("==================================");
+		System.out.println(votesSum);
+		return votesSum;
+		
+	}
 
 }
