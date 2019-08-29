@@ -1,6 +1,7 @@
 package com.camara.organizada.services;
 
 
+import java.util.Arrays;
 import java.util.Iterator;
 import java.util.List;
 
@@ -12,6 +13,9 @@ import org.springframework.stereotype.Service;
 
 import com.camara.organizada.models.Commission;
 import com.camara.organizada.models.LegislativeProposal;
+import com.camara.organizada.models.PEC;
+import com.camara.organizada.models.PL;
+import com.camara.organizada.models.PLP;
 import com.camara.organizada.models.RulingParty;
 import com.camara.organizada.models.User;
 import com.camara.organizada.models.Voting;
@@ -105,22 +109,81 @@ public class CommissionService {
 			throw new ServletException("Não existe nenhuma comissão registrada com esse tema!");
 		}
 		
+		if(isRegistredProposal == null ) {
+			throw new ServletException("Não existe nenhuma proposta de lei com esse codigo!");
+		}
+		
 		if(commissionPresent(isRegistredCommission, proposalCode)) {
 			throw new ServletException("Esta comissão já votou a esta proposta");
 		}
 		
 		List<RulingParty> rulingParties = rulingPartyRepository.findAll();
 		
-		String votingStatus = isRegistredCommission.passLaw(isRegistredProposal, rulingProposalStatus, rulingParties);
-	
+		
+		String votingStatus = isRegistredCommission.passLaw(isRegistredProposal, rulingProposalStatus, rulingParties);		
+		
 		Voting newVoting = createVoting(proposalCode, rulingProposalStatus, local, votingStatus);
 		
 		Voting savedVote = votingRepository.save(newVoting);
 		isRegistredCommission.setVotingProposals(savedVote);
 		
+		
+		String currentStatus = isRegistredProposal.getCurrentSituation().get(isRegistredProposal.getCurrentSituation().size() - 1);
+		
+		String currentLocal = getLocalStatus(currentStatus);
+		
+		currentStatus = votingStatus + " (" + currentLocal + ")";
+		
+		isRegistredProposal.getCurrentSituation().set(isRegistredProposal.getCurrentSituation().size() - 1, currentStatus);
+		
+		isRegistredProposal.getCurrentSituation().add("EM VOTAÇÃO (" + local + ")");
+				
+		updateProposal(isRegistredProposal);
+		
 		Commission updatedCommission = commissionRep.save(isRegistredCommission);
 
 		return updatedCommission;
+	}
+
+
+	private String getLocalStatus(String currentStatus) {
+		String localName = "";
+		boolean startPickName = false;
+		for(int i = 0; i < currentStatus.length(); i++) {
+			if(currentStatus.charAt(i) == '(') {
+				startPickName = true;
+			}
+			
+			if(startPickName) {
+				for(int j = i+1; j < currentStatus.length(); j++) {
+					
+					if(currentStatus.charAt(j) == ')') {
+						return localName;
+					}
+					
+					localName += currentStatus.charAt(j);
+				}
+			}
+		}
+		
+		return localName;
+	}
+
+
+	private void updateProposal(LegislativeProposal isRegistredProposal) {
+		 if(PLRep.existsById(isRegistredProposal.getCode())) {
+			 PL plUpdate = (PL) isRegistredProposal;
+			 PLRep.save(plUpdate);
+			 
+		 } else if(PLPRep.existsById(isRegistredProposal.getCode())) {
+			 PLP plpUpdate = (PLP) isRegistredProposal;
+			 PLPRep.save(plpUpdate);
+		 } else if(PECRep.existsById(isRegistredProposal.getCode())) {
+			 PEC pecUpdate = (PEC) isRegistredProposal;
+			 PECRep.save(pecUpdate);
+		 }
+		 
+		
 	}
 
 
@@ -134,17 +197,19 @@ public class CommissionService {
 	}
 
 
-	private LegislativeProposal findPL(String proposalCode) {
+	public LegislativeProposal findPL(String proposalCode) {
 		 LegislativeProposal isRegistredProposal = null;
-		if (PECRep.findById(proposalCode) != null) {
-			isRegistredProposal = PECRep.findById(proposalCode).orElse(null);
-		} else if(PLPRep.findById(proposalCode) != null) {
-			isRegistredProposal = PLPRep.findById(proposalCode).orElse(null);
-		}else if(PLRep.findById(proposalCode) != null) {
-			isRegistredProposal = PLRep.findById(proposalCode).orElse(null);
-			System.out.println(isRegistredProposal);
-		}
-		return isRegistredProposal;
+		 
+		 if(PLRep.existsById(proposalCode)) {
+			 isRegistredProposal = PLRep.findById(proposalCode).orElse(null);
+		 } else if(PLPRep.existsById(proposalCode)) {
+			 isRegistredProposal = PLPRep.findById(proposalCode).orElse(null);
+		 } else if(PECRep.existsById(proposalCode)) {
+			 isRegistredProposal = PECRep.findById(proposalCode).orElse(null);
+		 }
+		 
+		 return isRegistredProposal;
+		 
 	}
 
 	public boolean commissionPresent(Commission commission, String proposalCode){

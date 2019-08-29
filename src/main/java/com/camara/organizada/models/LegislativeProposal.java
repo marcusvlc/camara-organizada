@@ -1,6 +1,8 @@
 package com.camara.organizada.models;
 
 
+import java.util.ArrayList;
+
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Inheritance;
@@ -27,12 +29,12 @@ public class LegislativeProposal  {
 	
 	private String interests;
 	
-	private String currentSituation;
+	private ArrayList<String> currentSituation;
 	
 	private String documentAddress;
 	
 	public LegislativeProposal() {
-		
+		currentSituation = new ArrayList<String>();
 	}
 
 	public Deputy getAuthor() {
@@ -75,11 +77,13 @@ public class LegislativeProposal  {
 		this.interests = interests;
 	}
 
-	public String getCurrentSituation() {
+
+
+	public ArrayList<String> getCurrentSituation() {
 		return currentSituation;
 	}
 
-	public void setCurrentSituation(String currentSituation) {
+	public void setCurrentSituation(ArrayList<String> currentSituation) {
 		this.currentSituation = currentSituation;
 	}
 

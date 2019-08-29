@@ -1,5 +1,6 @@
 package com.camara.organizada.controllers;
 
+import java.util.ArrayList;
 import java.util.Map;
 
 import javax.servlet.ServletException;
@@ -7,14 +8,18 @@ import javax.servlet.ServletException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.camara.organizada.models.LegislativeProposal;
 import com.camara.organizada.models.PEC;
 import com.camara.organizada.models.PL;
 import com.camara.organizada.models.PLP;
+import com.camara.organizada.services.LegislativeService;
 import com.camara.organizada.services.PECService;
 import com.camara.organizada.services.PLPService;
 import com.camara.organizada.services.PLService;
@@ -31,6 +36,9 @@ public class LegislativeController {
 	
 	@Autowired
 	private PLPService plpService;
+	
+	@Autowired
+	private LegislativeService legislativeService;
 	
 	
 	@PostMapping("/register/pl")
@@ -83,6 +91,14 @@ public class LegislativeController {
 		PLP plp = plpService.registerPLP(year, code, summary, interests , documentAddress, article, authorDNI);
 		
 		return new ResponseEntity<PLP>(plp, HttpStatus.CREATED);
+	}
+	
+	@GetMapping("/processing/{code}")
+	public ResponseEntity<ArrayList<String>> showProcessing(@PathVariable String code) throws ServletException {
+		
+		 ArrayList<String> processing = legislativeService.showProcessing(code);
+		
+		return new ResponseEntity<ArrayList<String>>(processing, HttpStatus.ACCEPTED);
 	}
 	
 

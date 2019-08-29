@@ -19,7 +19,7 @@ public class PEC extends LegislativeProposal {
 		this.setSummary(summary);
 		this.setInterests(interests);
 		this.setDocumentAddress(documentAddress);
-		this.setCurrentSituation("EM VOTACAO (CCJC)");
+		this.getCurrentSituation().add("EM VOTACAO (CCJC)");
 
 	}
 

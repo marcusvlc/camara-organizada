@@ -116,8 +116,12 @@ public class Deputy {
 	public int vote(String proposalInterests) {
 		int voteValue = 0;
 		System.out.println(this.getUser());
-		if(this.getUser().getInterestList().contains(proposalInterests)) {
-			voteValue = 1;
+		
+		if(this.getUser().getInterestList() != null) {
+			if(this.getUser().getInterestList().contains(proposalInterests)) {
+				voteValue = 1;
+		}
+
 		}
 		return voteValue;
 	}
