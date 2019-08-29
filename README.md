@@ -13,6 +13,6 @@ mvn spring-boot:run
 
 ## Arquitetura
 
-Confira abaixo o diagrama de classes do projeto. Esse diagrama ilustra a arquitetura de camadas abordada nesse projeto (controller/service/repository), onde o controller são as classes responsáveis por receber as requisições e orientá-las aos services, que por sua vez, aplicarão a lógica de negócio da aplicação. Por fim, os services levarão a informação para as camadas de repository, onde serão armazenadas/alteradas/deletadas ou até mesmo buscadas.
+Confira abaixo o diagrama de classes do projeto (o mesmo pode ser encontrado com resolução máxima [aqui](https://github.com/marcusvlc/camara-organizada/blob/master/DiagramImg.png)). Esse diagrama ilustra a arquitetura de camadas abordada nesse projeto (controller/service/repository), onde o controller são as classes responsáveis por receber as requisições e orientá-las aos services, que por sua vez, aplicarão a lógica de negócio da aplicação. Por fim, os services levarão a informação para as camadas de repository, onde serão armazenadas/alteradas/deletadas ou até mesmo buscadas.
 
 ![alt text](https://github.com/marcusvlc/camara-organizada/blob/master/DiagramImg.png)
