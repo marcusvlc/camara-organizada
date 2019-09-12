@@ -25,7 +25,7 @@ public class UserController {
 	@Autowired
 	private UserService userService;
 	
-	@PostMapping("/register")
+	@PostMapping("/")
 	public ResponseEntity<User> registerUser(@RequestBody User user) throws ServletException{
 		
 		User u = userService.registerUser(user);
@@ -34,7 +34,7 @@ public class UserController {
 		
 	}
 	
-	@PostMapping("/registerInterests/{dni}")
+	@PostMapping("/{dni}")
 	public ResponseEntity<User> registerUser(@PathVariable String dni, @RequestBody Map<String,ArrayList<String>> interestsList) throws ServletException{
 		
 		User user = userService.updateInterestsList(dni, interestsList.get("interestsList"));

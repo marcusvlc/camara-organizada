@@ -24,7 +24,7 @@ public class CommissionController {
 	@Autowired
 	private CommissionService commissionService;
 	
-	@PostMapping("/register")
+	@PostMapping("/")
 	public ResponseEntity<Commission> registerCommission(@RequestBody Map<String, Object> payload) throws ServletException {
 		
 		String initials = (String) payload.get("initials");
@@ -36,7 +36,7 @@ public class CommissionController {
 		return new ResponseEntity<Commission>(c, HttpStatus.OK);
 	}
 
-	@PostMapping("/vote/{theme}")
+	@PostMapping("/{theme}")
 	public ResponseEntity<Commission> voting(@PathVariable String theme, @RequestBody Map<String, Object> voting) throws ServletException {
 		
 		String proposalCode = (String) voting.get("proposalCode");

@@ -76,7 +76,6 @@ public class Commission {
 			inFavorTotalVotes = voteAccording2RulingPosition(rulingProposalStatus, rulingParties);
 		}
 		
-		System.out.println(inFavorTotalVotes);
 		
 		votingStatus = resolvingStatus(inFavorTotalVotes);
 		
@@ -106,15 +105,12 @@ public class Commission {
 
 	private int voteFreeProposal(LegislativeProposal proposal) {
 		int votesSum = 0;
-		System.out.println("CHEGOOOOOOOOOOOOOOOOOOOOOO");
 		String proposalInterests = proposal.getInterests();
 		for (Iterator iterator = this.participants.iterator(); iterator.hasNext();) {
 			Deputy deputy = (Deputy) iterator.next();
 
 			votesSum += deputy.vote(proposalInterests);
 		}
-		System.out.println("==================================");
-		System.out.println(votesSum);
 		return votesSum;
 		
 	}

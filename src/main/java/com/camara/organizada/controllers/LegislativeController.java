@@ -41,7 +41,7 @@ public class LegislativeController {
 	private LegislativeService legislativeService;
 	
 	
-	@PostMapping("/register/pl")
+	@PostMapping("/pl")
 	public ResponseEntity<PL> registerPL(@RequestBody Map<String, Object> payload) throws ServletException {
 		
 		int year = (int) payload.get("year");
@@ -59,7 +59,7 @@ public class LegislativeController {
 		return new ResponseEntity<PL>(pl, HttpStatus.CREATED);
 	}
 	
-	@PostMapping("/register/pec")
+	@PostMapping("/pec")
 	public ResponseEntity<PEC> registerPEC(@RequestBody Map<String, Object> payload) throws ServletException {
 		
 		int year = (int) payload.get("year");
@@ -76,7 +76,7 @@ public class LegislativeController {
 		return new ResponseEntity<PEC>(pec, HttpStatus.CREATED);
 	}
 	
-	@PostMapping("/register/plp")
+	@PostMapping("/plp")
 	public ResponseEntity<PLP> registerPLP(@RequestBody Map<String, Object> payload) throws ServletException {
 		
 		int year = (int) payload.get("year");

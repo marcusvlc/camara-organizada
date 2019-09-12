@@ -24,7 +24,7 @@ public class RulingPartyController {
 	@Autowired
 	private RulingPartyService rulingPartyService;
 	
-	@PostMapping("/register")
+	@PostMapping("/")
 	public ResponseEntity<RulingParty> registerRulingParty(@RequestBody RulingParty rulingParty) throws ServletException{
 		
 		RulingParty u = rulingPartyService.registerRulingParty(rulingParty);
@@ -34,7 +34,7 @@ public class RulingPartyController {
 	}
 	
 	
-	@GetMapping("/show")
+	@GetMapping("/")
 	public ResponseEntity<List<RulingParty>> showRulingParty() {
 		
 		List<RulingParty> parties =  rulingPartyService.getRulingParties();
