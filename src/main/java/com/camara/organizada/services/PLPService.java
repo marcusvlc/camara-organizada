@@ -8,9 +8,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.camara.organizada.controllers.LegislativeDto;
-import com.camara.organizada.controllers.LegislativePLDto;
-import com.camara.organizada.models.PEC;
-import com.camara.organizada.models.PL;
 import com.camara.organizada.models.PLP;
 import com.camara.organizada.models.User;
 import com.camara.organizada.repositories.PLPRepository;

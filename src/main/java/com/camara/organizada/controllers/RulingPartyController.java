@@ -14,7 +14,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.camara.organizada.models.RulingParty;
-import com.camara.organizada.models.User;
 import com.camara.organizada.services.RulingPartyService;
 
 @RestController

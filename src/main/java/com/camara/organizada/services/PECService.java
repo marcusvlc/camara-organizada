@@ -9,7 +9,6 @@ import org.springframework.stereotype.Service;
 
 import com.camara.organizada.controllers.LegislativeDto;
 import com.camara.organizada.models.PEC;
-import com.camara.organizada.models.PL;
 import com.camara.organizada.models.User;
 import com.camara.organizada.repositories.PECRepository;
 import com.camara.organizada.repositories.UserRepository;

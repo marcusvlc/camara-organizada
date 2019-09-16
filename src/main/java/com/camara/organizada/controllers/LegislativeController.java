@@ -1,8 +1,6 @@
 package com.camara.organizada.controllers;
 
 import java.util.ArrayList;
-import java.util.Map;
-
 import javax.servlet.ServletException;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,7 +13,6 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.camara.organizada.models.LegislativeProposal;
 import com.camara.organizada.models.PEC;
 import com.camara.organizada.models.PL;
 import com.camara.organizada.models.PLP;

@@ -1,7 +1,5 @@
 package com.camara.organizada.controllers;
 
-import java.util.Map;
-
 import javax.servlet.ServletException;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,7 +12,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.camara.organizada.models.Commission;
-import com.camara.organizada.models.Voting;
 import com.camara.organizada.services.CommissionService;
 
 @RestController
@@ -33,13 +30,9 @@ public class CommissionController {
 	}
 
 	@PostMapping("/{theme}")
-	public ResponseEntity<Commission> voting(@PathVariable String theme, @RequestBody Map<String, Object> voting) throws ServletException {
+	public ResponseEntity<Commission> voting(@PathVariable String theme, @RequestBody VotingDto voting) throws ServletException {
 		
-		String proposalCode = (String) voting.get("proposalCode");
-		String rulingProposalStatus = (String) voting.get("rulingProposalStatus");
-		String local = (String) voting.get("local");
-		
-		Commission c = commissionService.comissionVoting(theme, proposalCode, rulingProposalStatus, local);
+		Commission c = commissionService.comissionVoting(theme, voting);
 		
 		return new ResponseEntity<Commission>(c, HttpStatus.CREATED);
 	}

@@ -1,11 +1,7 @@
 package com.camara.organizada.controllers;
 
 import java.text.ParseException;
-import java.util.Map;
-
 import javax.servlet.ServletException;
-import javax.servlet.http.HttpServletRequest;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -17,7 +13,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.camara.organizada.models.Deputy;
-import com.camara.organizada.models.User;
 import com.camara.organizada.services.DeputyService;
 
 
