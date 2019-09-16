@@ -25,13 +25,9 @@ public class CommissionController {
 	private CommissionService commissionService;
 	
 	@PostMapping("/")
-	public ResponseEntity<Commission> registerCommission(@RequestBody Map<String, Object> payload) throws ServletException {
+	public ResponseEntity<Commission> registerCommission(@RequestBody CommissionDto payload) throws ServletException {
 		
-		String initials = (String) payload.get("initials");
-		String dnis = (String) payload.get("dnis");
-		String theme = (String) payload.get("theme");
-		
-		Commission c = commissionService.registerCommission(initials, dnis, theme);
+		Commission c = commissionService.registerCommission(payload);
 		
 		return new ResponseEntity<Commission>(c, HttpStatus.OK);
 	}

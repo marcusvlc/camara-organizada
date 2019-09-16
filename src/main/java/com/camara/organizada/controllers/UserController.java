@@ -35,9 +35,9 @@ public class UserController {
 	}
 	
 	@PostMapping("/{dni}")
-	public ResponseEntity<User> registerUser(@PathVariable String dni, @RequestBody Map<String,ArrayList<String>> interestsList) throws ServletException{
+	public ResponseEntity<User> registerUser(@PathVariable String dni, @RequestBody InterestListDto interestsList) throws ServletException{
 		
-		User user = userService.updateInterestsList(dni, interestsList.get("interestsList"));
+		User user = userService.updateInterestsList(dni, interestsList);
 		
 		
 		return new ResponseEntity<User>(user, HttpStatus.OK);

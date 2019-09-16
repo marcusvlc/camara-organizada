@@ -53,7 +53,7 @@ public class CommissionService {
 	private PECRepository PECRep; 
 	
 	
-	public Commission registerCommission(String initials, String dnis, String theme) throws ServletException {
+	public Commission registerCommission(CommissionDto payload) throws ServletException {
 		
 		if(!utils.isValidString(initials) || !utils.isValidString(dnis) || !utils.isValidString(theme)) {
 			throw new ServletException("Campos inválidos ou vazio!");
