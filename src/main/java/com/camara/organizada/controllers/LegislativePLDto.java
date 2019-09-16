@@ -9,7 +9,7 @@ public class LegislativePLDto {
 	private String currentSituation;
 	private String documentAddress;
 	private boolean processing;
-	private String authorDNI;
+	private String author;
 	
 	public int getYear() {
 		return year;
@@ -53,11 +53,11 @@ public class LegislativePLDto {
 	public void setProcessing(boolean processing) {
 		this.processing = processing;
 	}
-	public String getAuthorDNI() {
-		return authorDNI;
+	public String getAuthor() {
+		return author;
 	}
-	public void setAuthorDNI(String authorDNI) {
-		this.authorDNI = authorDNI;
+	public void setAuthor(String author) {
+		this.author = author;
 	}
 	
 }

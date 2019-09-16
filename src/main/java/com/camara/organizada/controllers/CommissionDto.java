@@ -2,16 +2,16 @@ package com.camara.organizada.controllers;
 
 public class CommissionDto {
 
-	private String initialsprivate ;
+	private String initials;
 	private String dnis;
 	private String theme;
 	
 	
-	public String getInitialsprivate() {
-		return initialsprivate;
+	public String getInitials() {
+		return initials;
 	}
-	public void setInitialsprivate(String initialsprivate) {
-		this.initialsprivate = initialsprivate;
+	public void setInitialsprivate(String initials) {
+		this.initials = initials;
 	}
 	public String getDnis() {
 		return dnis;

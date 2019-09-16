@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Service;
 
+import com.camara.organizada.controllers.CommissionDto;
 import com.camara.organizada.models.Commission;
 import com.camara.organizada.models.LegislativeProposal;
 import com.camara.organizada.models.PEC;
@@ -55,22 +56,29 @@ public class CommissionService {
 	
 	public Commission registerCommission(CommissionDto payload) throws ServletException {
 		
-		if(!utils.isValidString(initials) || !utils.isValidString(dnis) || !utils.isValidString(theme)) {
+		Commission commission = convertToEntity(payload);
+		
+		Commission savedCommission = commissionRep.save(commission);
+		
+		return savedCommission;
+	}
+	
+	private Commission convertToEntity(CommissionDto payload) throws ServletException {
+		if(!utils.isValidString(payload.getInitials()) || !utils.isValidString(payload.getDnis()) || !utils.isValidString(payload.getTheme())) {
 			throw new ServletException("Campos inválidos ou vazio!");
 		}
 		
-		Commission isRegistredCommission = commissionRep.findById(theme).orElse(null);
+		Commission isRegistredCommission = commissionRep.findById(payload.getTheme()).orElse(null);
 		
 		if(isRegistredCommission != null) {
 			throw new ServletException("Já existe uma comissão registrada com esse tema!");
 		}
 		
-		String[] formatedDnis = dnis.split(",");
+		String[] formatedDnis = payload.getDnis().split(",");
 		
 		Commission commission = new Commission();
-		commission.setInitials(initials);
-		commission.setTheme(theme);
-		
+		commission.setInitials(payload.getInitials());
+		commission.setTheme(payload.getTheme());
 		
 		for(String dni: formatedDnis) {
 			if(!utils.isValidDNI(dni)) {
@@ -90,9 +98,7 @@ public class CommissionService {
 			}
 		}
 		
-		Commission savedCommission = commissionRep.save(commission);
-		
-		return savedCommission;
+		return commission;
 	}
 
 

@@ -35,22 +35,22 @@ public class PLService {
 
 
 	private PL convertToEntity(LegislativePLDto payload) throws ServletException {
-		if(!utils.isValidString(payload.getAuthorDNI()) || !utils.isValidString(payload.getSummary()) || !utils.isValidString(payload.getInterests()) || !utils.isValidString(payload.getDocumentAddress())) {
+		if(!utils.isValidString(payload.getAuthor()) || !utils.isValidString(payload.getSummary()) || !utils.isValidString(payload.getInterests()) || !utils.isValidString(payload.getDocumentAddress())) {
 			 throw new ServletException("Campos inválidos ou vazios!");
 		}
 		
-		if(!utils.isValidDNI(payload.getAuthorDNI())) {
+		if(!utils.isValidDNI(payload.getAuthor())) {
 			throw new ServletException("DNI inválido");
 		}
 		
-		User isValidUser = userRepo.findById(payload.getAuthorDNI()).orElse(null);
+		User isValidUser = userRepo.findById(payload.getAuthor()).orElse(null);
 		
 		if(isValidUser == null) {
 			throw new ServletException("Não existe uma pessoa cadastrada com o DNI fornecido");
 		}
 		
 		if(isValidUser.getDeputy() == null) {
-			throw new ServletException("A pessoa com o dni: " + payload.getAuthorDNI() + " não é um deputado");
+			throw new ServletException("A pessoa com o dni: " + payload.getAuthor() + " não é um deputado");
 		}
 		
 		int currentYear = Calendar.getInstance().get(Calendar.YEAR);
