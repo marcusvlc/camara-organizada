@@ -29,8 +29,6 @@ public class DeputyService {
 	
 	public Deputy registerDeputy(DeputyDto deputyDto, String dni) throws ServletException, ParseException{
 		
-		
-				
 		User isValidUser = userRep.findById(dni).orElse(null);
 		
 		if(isValidUser == null) {
@@ -39,13 +37,10 @@ public class DeputyService {
 		
 		if(isValidUser.getParty() == null || isValidUser.getParty().trim().isEmpty()) {
 			throw new ServletException("Não é possível cadastrar uma pessoa sem partido como deputado!");
-
 		}
 		
 		Deputy newDeputy = convertToEntity(deputyDto); 
-
 		newDeputy.setUser(isValidUser);
-		
 		
 		return deputyRep.save(newDeputy);
 		
@@ -53,20 +48,15 @@ public class DeputyService {
 	
 	private Deputy convertToEntity(DeputyDto deputyDto) throws ServletException {
 		
-		
 		if(!util.isValidString((String) deputyDto.getInitJob())) {
 			throw new ServletException("Data de inicio do mandato invalida! Insira no formato DDMMYYY");
 		}
-		
 		LocalDate dateParsed = util.parseString2Date((String) deputyDto.getInitJob());
                  
-		
 		if(!util.isValidInitDate(dateParsed)) {
 			throw new ServletException("Data de inicio do mandato invalida! Ela deve ser anterior ou igual a data atual");
 		}
-		
 		Deputy deputy = new Deputy(dateParsed, (int) deputyDto.getApprovedLaws());
-		
 		
 		return deputy;
 	}
@@ -80,7 +70,6 @@ public class DeputyService {
 		} else {
 			if(user.getDeputy() == null) {
 				throw new ServletException("O DNI fornecido pertence a um usuário que não é deputado");
-
 			}
 		}
 		

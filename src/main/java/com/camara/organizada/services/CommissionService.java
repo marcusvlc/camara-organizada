@@ -38,8 +38,6 @@ public class CommissionService {
 	private UserRepository userRep;
 	
 	private Util utils = new Util();
-	@Autowired
-	private PLRepository proposalRep;
 	
 	@Autowired
 	private VotingRepository votingRepository; 
@@ -219,7 +217,7 @@ public class CommissionService {
 	}
 
 	public boolean commissionPresent(Commission commission, String proposalCode){
-		for (Iterator iterator = commission.getVotingProposals().iterator(); iterator.hasNext();) {
+		for (Iterator<Voting> iterator = commission.getVotingProposals().iterator(); iterator.hasNext();) {
 			Voting vote= (Voting) iterator.next();
 			if(vote.equals(proposalCode)) {
 				return true;

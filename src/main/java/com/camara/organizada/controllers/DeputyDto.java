@@ -1,7 +1,5 @@
 package com.camara.organizada.controllers;
 
-import java.time.LocalDate;
-
 public class DeputyDto {
 	
 	private String initJob;

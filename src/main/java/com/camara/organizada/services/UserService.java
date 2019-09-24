@@ -4,9 +4,12 @@ package com.camara.organizada.services;
 import java.util.ArrayList;
 
 import javax.servlet.ServletException;
+import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.web.context.request.RequestContextHolder;
+import org.springframework.web.context.request.ServletRequestAttributes;
 
 import com.camara.organizada.controllers.InterestListDto;
 import com.camara.organizada.models.User;
@@ -18,6 +21,9 @@ public class UserService {
 	
 	@Autowired
 	private UserRepository userRepo;
+	
+	@Autowired
+	private TokenService tokenService;
 	
 	private Util util = new Util();
 	
@@ -32,16 +38,13 @@ public class UserService {
 		
 		if(!util.isValidDNI(user.getDni())) {
 			throw new ServletException("DNI Inválido! Utilize apenas numeros!");
-		}
-		
+		}		
 		if(isUserRegistred != null) {
 			throw new ServletException("Usuário já registrado!");
 		}
-		
 		if(user.getState().length() != 2) {
 			throw new ServletException("Nome de estado inválido! Insira o formato de duas letras!");
 		}
-		
 		User registredUser = userRepo.save(user);
 		return registredUser;
 	}
@@ -50,9 +53,7 @@ public class UserService {
 		
 		if(!util.isValidDNI(dni)) {
 			throw new ServletException("DNI invalido!");
-
 		}
-		
 		User user = userRepo.findById(dni).orElse(null);
 		
 		return user;
@@ -74,6 +75,25 @@ public class UserService {
 		User updatedUser = userRepo.save(user);
 		
 		return updatedUser;
+	}
+
+	public User getUser(String dni) throws ServletException {
+		User user = findById(dni);
+		
+		HttpServletRequest request = 
+		        ((ServletRequestAttributes)RequestContextHolder.getRequestAttributes())
+		                .getRequest();
+		
+		if (user != null) { 
+			user.setDeputy(null);
+			
+			if(!tokenService.isValidToken(request)) {
+				user.setName(null);
+				user.setParty(null);
+				user.setState(null);
+			}
+		} 
+		return user;
 	}
 
 
