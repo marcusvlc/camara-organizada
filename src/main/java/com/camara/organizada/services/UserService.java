@@ -8,6 +8,7 @@ import javax.servlet.ServletException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.camara.organizada.controllers.InterestListDto;
 import com.camara.organizada.models.User;
 import com.camara.organizada.repositories.UserRepository;
 import com.camara.organizada.utils.Util;
@@ -57,13 +58,13 @@ public class UserService {
 		return user;
 	}
 
-	public User updateInterestsList(String dni, ArrayList<String> interestsList) throws ServletException {
+	public User updateInterestsList(String dni, InterestListDto interestsList) throws ServletException {
 		if(!util.isValidDNI(dni)) {
 			throw new ServletException("DNI invalido!");
 
 		}
 		
-		ArrayList<String> userInterests = interestsList;
+		ArrayList<String> userInterests = interestsList.getInterestsList();
 		User user = userRepo.findById(dni).orElse(null);
 		
 		if( user == null) {
