@@ -7,6 +7,7 @@ import javax.servlet.ServletException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.camara.organizada.controllers.LegislativePLDto;
 import com.camara.organizada.models.PL;
 import com.camara.organizada.models.User;
 import com.camara.organizada.repositories.PLRepository;
@@ -25,46 +26,51 @@ public class PLService {
 	private Util utils = new Util();
 	
 	
-	public PL registerPL(int year, String code, String summary, String interests, String currentSituation, String documentAddress, boolean processing, String authorDNI) throws ServletException {
+	public PL registerPL(LegislativePLDto payload) throws ServletException {
 		
-		if(!utils.isValidString(authorDNI) || !utils.isValidString(summary) || !utils.isValidString(interests) || !utils.isValidString(documentAddress)) {
+		PL newPL = convertToEntity(payload);
+				
+		return plRepo.save(newPL);
+	}
+
+
+	private PL convertToEntity(LegislativePLDto payload) throws ServletException {
+		if(!utils.isValidString(payload.getAuthor()) || !utils.isValidString(payload.getSummary()) || !utils.isValidString(payload.getInterests()) || !utils.isValidString(payload.getDocumentAddress())) {
 			 throw new ServletException("Campos inválidos ou vazios!");
 		}
 		
-		if(!utils.isValidDNI(authorDNI)) {
+		if(!utils.isValidDNI(payload.getAuthor())) {
 			throw new ServletException("DNI inválido");
 		}
 		
-		User isValidUser = userRepo.findById(authorDNI).orElse(null);
+		User isValidUser = userRepo.findById(payload.getAuthor()).orElse(null);
 		
 		if(isValidUser == null) {
 			throw new ServletException("Não existe uma pessoa cadastrada com o DNI fornecido");
 		}
 		
 		if(isValidUser.getDeputy() == null) {
-			throw new ServletException("A pessoa com o dni: " + authorDNI + " não é um deputado");
+			throw new ServletException("A pessoa com o dni: " + payload.getAuthor() + " não é um deputado");
 		}
 		
 		int currentYear = Calendar.getInstance().get(Calendar.YEAR);
 		
 		int minYear = 1988;
 		
-		if(year < minYear || year > currentYear) {
+		if(payload.getYear() < minYear || payload.getYear() > currentYear) {
 			throw new ServletException("O valor do ano deve ser maior que 1988 e menor ou igual  ao ano atual.");
 		}
 		
-		PL isRegistedPL = plRepo.findById(code).orElse(null);
+		PL isRegistedPL = plRepo.findById(payload.getCode()).orElse(null);
 		
 		if(isRegistedPL != null) {
 			throw new ServletException("Já existe uma PL com esse código!");
 		}
 		
 		
-		PL newPL = new PL(year, code, summary, interests, currentSituation, documentAddress, processing, isValidUser.getDeputy());
+		PL newPL = new PL(payload.getYear(), payload.getCode(), payload.getSummary(), payload.getInterests(), payload.getCurrentSituation(), payload.getDocumentAddress(), payload.isProcessing(), isValidUser.getDeputy());
 		
-		
-		
-		return plRepo.save(newPL);
+		return newPL;
 	}
 
 }

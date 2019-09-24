@@ -60,8 +60,6 @@ public class Commission {
 	}
 	
 	public String passLaw(LegislativeProposal proposal, String rulingProposalStatus, List<RulingParty> rulingParties ) {
-		String ruling = "GOVERNISTA";
-		String counterPart= "OPOSICAO";
 		String free = "LIVRE";
 		int inFavorTotalVotes;
 		String votingStatus;

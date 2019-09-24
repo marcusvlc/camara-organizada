@@ -1,8 +1,6 @@
 package com.camara.organizada.controllers;
 
 import java.util.ArrayList;
-import java.util.Map;
-
 import javax.servlet.ServletException;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,7 +13,6 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.camara.organizada.models.LegislativeProposal;
 import com.camara.organizada.models.PEC;
 import com.camara.organizada.models.PL;
 import com.camara.organizada.models.PLP;
@@ -42,53 +39,26 @@ public class LegislativeController {
 	
 	
 	@PostMapping("/pl")
-	public ResponseEntity<PL> registerPL(@RequestBody Map<String, Object> payload) throws ServletException {
+	public ResponseEntity<PL> registerPL(@RequestBody LegislativePLDto payload) throws ServletException {
 		
-		int year = (int) payload.get("year");
-		String code = (String) payload.get("code");
-		String summary = (String) payload.get("summary");
-		String interests = (String) payload.get("interests");
-		String currentSituation = (String) payload.get("currentSituation");
-		String documentAddress = (String) payload.get("documentAddress");
-		boolean processing = (boolean) payload.get("processing");
-		String authorDNI = (String) payload.get("author");
-		
-		
-		PL pl = plService.registerPL(year, code, summary, interests, currentSituation, documentAddress, processing, authorDNI);
+		PL pl = plService.registerPL(payload);
 		
 		return new ResponseEntity<PL>(pl, HttpStatus.CREATED);
 	}
 	
 	@PostMapping("/pec")
-	public ResponseEntity<PEC> registerPEC(@RequestBody Map<String, Object> payload) throws ServletException {
-		
-		int year = (int) payload.get("year");
-		String code = (String) payload.get("code");
-		String summary = (String) payload.get("summary");
-		String interests = (String) payload.get("interests");
-		String documentAddress = (String) payload.get("documentAddress");
-		String article = (String) payload.get("article");
-		String authorDNI = (String) payload.get("author");
-		
-		
-		PEC pec = pecService.registerPEC(year, code, summary, interests , documentAddress, article, authorDNI);
+	public ResponseEntity<PEC> registerPEC(@RequestBody LegislativeDto payload) throws ServletException {
+				
+		PEC pec = pecService.registerPEC(payload);
 		
 		return new ResponseEntity<PEC>(pec, HttpStatus.CREATED);
 	}
 	
 	@PostMapping("/plp")
-	public ResponseEntity<PLP> registerPLP(@RequestBody Map<String, Object> payload) throws ServletException {
-		
-		int year = (int) payload.get("year");
-		String code = (String) payload.get("code");
-		String summary = (String) payload.get("summary");
-		String interests = (String) payload.get("interests");
-		String documentAddress = (String) payload.get("documentAddress");
-		String article = (String) payload.get("article");
-		String authorDNI = (String) payload.get("author");
+	public ResponseEntity<PLP> registerPLP(@RequestBody LegislativeDto payload) throws ServletException {
 		
 		
-		PLP plp = plpService.registerPLP(year, code, summary, interests , documentAddress, article, authorDNI);
+		PLP plp = plpService.registerPLP(payload);
 		
 		return new ResponseEntity<PLP>(plp, HttpStatus.CREATED);
 	}

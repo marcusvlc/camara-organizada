@@ -1,11 +1,7 @@
 package com.camara.organizada.controllers;
 
 import java.text.ParseException;
-import java.util.Map;
-
 import javax.servlet.ServletException;
-import javax.servlet.http.HttpServletRequest;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -17,7 +13,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.camara.organizada.models.Deputy;
-import com.camara.organizada.models.User;
 import com.camara.organizada.services.DeputyService;
 
 
@@ -30,9 +25,8 @@ public class DeputyController {
 	
 	
 	@PostMapping("/user/{person_dni}")
-	public ResponseEntity<Deputy> registerDeputy(@RequestBody Map<String,Object> deputy, @PathVariable String person_dni ) throws ServletException, ParseException{
-		System.out.println(person_dni);
-		Deputy registredDeputy = deputyService.registerDeputy(deputy, person_dni);
+	public ResponseEntity<Deputy> registerDeputy(@RequestBody DeputyDto deputyDto, @PathVariable String person_dni ) throws ServletException, ParseException{
+		Deputy registredDeputy = deputyService.registerDeputy(deputyDto, person_dni);
 		
 		return new ResponseEntity<Deputy>(registredDeputy, HttpStatus.CREATED);
 		
