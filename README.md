@@ -15,13 +15,15 @@ mvn spring-boot:run
 
 Confira abaixo o diagrama de classes do projeto (o mesmo pode ser encontrado com resolução máxima [aqui](https://github.com/marcusvlc/camara-organizada/blob/master/DiagramImg.png)). Abaixo, temos uma diagrama simplificado que ilustra a arquitetura de camadas abordada nesse projeto (controller/service/repository), onde o controller são as classes responsáveis por receber as requisições e orientá-las aos services, que por sua vez, aplicarão a lógica de negócio da aplicação. Por fim, os services levarão a informação para as camadas de repository, onde serão armazenadas/alteradas/deletadas ou até mesmo buscadas.
 
-Os dados foram persistidos utilizando [Hibernate](http://hibernate.org/).
+Os dados foram persistidos utilizando a ORM [Hibernate](http://hibernate.org/). Para isso, utilizamos a notação @Entity nas classes na qual a persistência era necessária, e também utilizamos de notaçoes como @OneToOne @OneToMany, @ManyToOne e @ManyToMany para definir a relação entre essas entidades.
+
+Para conferir o banco de dados, que nesse projeto é o H2, você deve acessar http://localhost:8080/h2 e preencher os campos conforme os dados do arquivo application.properties
 
 ![alt text](https://github.com/marcusvlc/camara-organizada/blob/auth/DACADiagram.png)
 
 ## Dá pra ter administrador 
 
-Caso deseje você pode cadastrar um administrador, pela rota `/admin` com a operação de post. Ao realizar login como administrador, pela rota `/login`, é gerado um token a partir das informações do , utilizando a biblioteca `Jason Web Token`, que é retornado e pode ser usado para consultar informações sobre usuários. Isso pode ser visto pelo request GET para `/user` que possui retornos diferentes de acordo com as informações no cabeçalho `{authorization bearer: _token_}`. Caso seja feita uma requisição de consulta de usuários sem passar o token, apenas a informação _DNI_ será retornada. Se o campo de `Authorization` é adicionado ao header da requisição `GET` para usuários, duas coisas podem acontecer. Ao verificar o contexto do administrador passado na requisição, se o token for válido, ou seja, correspondente ao cálculado para o administrador, então, além do _DNI_, também são retornadas as informações _nome_, _partido_ e _estado_ do usuário são retornadas. Caso haja alguma inconsistência no token, um erro é retornado.
+Caso deseje você pode cadastrar um administrador, pela rota `/admin` com a operação de post. Ao realizar login como administrador, pela rota `/login`, é gerado um token a partir das informações do admininstrador utilizando a biblioteca `Json Web Token`, que é retornado na requisição de login e pode ser usado para consultar informações sobre usuários. Isso pode ser visto pelo request GET para `/user` que possui retornos diferentes de acordo com as informações no cabeçalho `Authorization Bearer <token>}`. Caso seja feita uma requisição de consulta de usuários sem passar o token, apenas a informação _DNI_ será retornada. Se o header contiver `Authorization Bearer <token>`, e o token for um token válido, a requisição `GET` para `/user` irá retornar, além do __DNI__, os campos de: _nome_, _partido_ e _estado_. Caso o token esteja mal formatado ou inválido, a requisição irá retornar um erro conforme a biblioteca JWT.
 
 ## Só mais uma coisinha
 
