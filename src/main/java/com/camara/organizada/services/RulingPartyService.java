@@ -20,7 +20,7 @@ public class RulingPartyService {
 	@Autowired
 	private RulingPartyRepository rulingPartyRepo;
 	
-    @CacheEvict(cacheNames = "RullingParties", allEntries = true)
+    @CacheEvict(cacheNames = "default", allEntries = true)
 	public RulingParty registerRulingParty(RulingParty rulingParty) throws ServletException {
 		if(!util.isValidString(rulingParty.getPartyName())) {
 			throw new ServletException("Campos invalidos!");
@@ -33,7 +33,7 @@ public class RulingPartyService {
 		return registredRulingParty;
 	}
 	
-	@Cacheable(cacheNames = "RullingParties", key="#parties")
+	@Cacheable(cacheNames = "default", key="#root.method.name")
 	public List<RulingParty> getRulingParties() {
 		List<RulingParty> allRulingParties = rulingPartyRepo.findAll();
 		return allRulingParties;
