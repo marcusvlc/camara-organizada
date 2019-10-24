@@ -23,6 +23,9 @@ mvn spring-boot:run
 3. Foi utilizado ORM [Hibernate](http://hibernate.org/) para a persistência, enquanto que para o banco de dados, é utilizado o H2. Para conferir o que foi armazenado, acesse http://localhost:8080/h2 e preencha os campos conforme os dados no arquivo application.properties. Para adicionar entidades e relações no BD é preciso apenas o uso de anotações como `@Entity`, `@OneToOne`, `@OneToMany`, `@ManyToOne`.
 
 4. Há o uso do [Redis](https://redis.io/) para a disponibilização de cache para algumas informações da aplicação. Assim como para o BD, a definição de informações cacheaveis é feita com anotações como `@Cacheable`, já disponibilizadas pelo Spring.
+Resultados:
+![alt text](https://i.imgur.com/ZBXSKfa.png)
+
 
 
 ## O Sistema pode ter administrador 
