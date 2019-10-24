@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
 
+import com.camara.organizada.config.TokenService;
 import com.camara.organizada.controllers.InterestListDto;
 import com.camara.organizada.models.User;
 import com.camara.organizada.repositories.UserRepository;
@@ -22,8 +23,8 @@ public class UserService {
 	@Autowired
 	private UserRepository userRepo;
 	
-	@Autowired
-	private TokenService tokenService;
+//	@Autowired
+//	private TokenService tokenService;
 	
 	private Util util = new Util();
 	
@@ -86,12 +87,6 @@ public class UserService {
 		
 		if (user != null) { 
 			user.setDeputy(null);
-			
-			if(!tokenService.isValidToken(request)) {
-				user.setName(null);
-				user.setParty(null);
-				user.setState(null);
-			}
 		} 
 		return user;
 	}

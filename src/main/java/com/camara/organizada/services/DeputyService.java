@@ -6,6 +6,7 @@ import java.time.LocalDate;
 
 import javax.servlet.ServletException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 
 import com.camara.organizada.controllers.DeputyDto;
@@ -61,8 +62,9 @@ public class DeputyService {
 		return deputy;
 	}
 	
+	@Cacheable(cacheNames = "default", key="#root.method.name")
 	public Deputy findById(String dni) throws ServletException {
-		
+		System.out.println("caching...");
 		User user = userRep.findById(dni).orElse(null);
 		
 		if(user == null) {
