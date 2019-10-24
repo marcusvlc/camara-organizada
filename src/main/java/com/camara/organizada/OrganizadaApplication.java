@@ -11,7 +11,7 @@ import org.springframework.cache.concurrent.ConcurrentMapCache;
 import org.springframework.cache.support.SimpleCacheManager;
 import org.springframework.context.annotation.Bean;
 
-import com.camara.organizada.services.CacheService;
+import com.camara.organizada.config.CacheService;
 
 @SpringBootApplication
 @EnableCaching
