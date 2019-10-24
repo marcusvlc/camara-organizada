@@ -15,8 +15,8 @@ import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.web.authentication.AbstractAuthenticationProcessingFilter;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
+import com.camara.organizada.admin.AccountCredentials;
 import com.camara.organizada.config.TokenService;
-import com.camara.organizada.models.AccountCredentials;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 public class JWTLoginFilter extends AbstractAuthenticationProcessingFilter {
