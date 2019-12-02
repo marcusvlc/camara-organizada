@@ -13,12 +13,13 @@ import org.springframework.kafka.core.ProducerFactory;
 import org.springframework.kafka.support.serializer.JsonSerializer;
 
 import com.camara.organizada.deputy.Deputy;
+import com.camara.organizada.deputy.DeputyKafkaDTO;
 
 @Configuration
 public class KafkaConfiguration {
 
 	@Bean
-	public ProducerFactory<String, Deputy> producerFactory(){
+	public ProducerFactory<String, DeputyKafkaDTO> producerFactory(){
 		Map<String, Object> config = new HashMap<>();
 		
 		config.put(ProducerConfig.BOOTSTRAP_SERVERS_CONFIG, "127.0.0.1:9092");
@@ -30,7 +31,7 @@ public class KafkaConfiguration {
 	}
 	
 	@Bean
-	public KafkaTemplate<String, Deputy> kafkaTemplate(){
+	public KafkaTemplate<String, DeputyKafkaDTO> kafkaTemplate(){
 		return new KafkaTemplate<>(producerFactory());
 	}
 }

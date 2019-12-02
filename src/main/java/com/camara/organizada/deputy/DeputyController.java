@@ -29,9 +29,22 @@ public class DeputyController {
 	@PostMapping("/user/{person_dni}")
 	public ResponseEntity<Deputy> registerDeputy(@RequestBody DeputyDto deputyDto, @PathVariable String person_dni ) throws ServletException, ParseException{
 		Deputy registredDeputy = deputyService.registerDeputy(deputyDto, person_dni);
-		String topic = "deputy_topic";
-		this.producer.sendMessage(registredDeputy, topic);
+		
+		sendDeputyToKafka(registredDeputy);
 		return new ResponseEntity<Deputy>(registredDeputy, HttpStatus.CREATED);
+		
+	}
+	
+	private void sendDeputyToKafka(Deputy deputy) {
+		
+		String topic = "deputy_topic";
+		DeputyKafkaDTO deputyKafka  = new DeputyKafkaDTO(deputy.getUser().getDni(),
+														deputy.getUser().getName(),
+														deputy.getUser().getState(),
+														deputy.getUser().getParty(),
+														deputy.getUser().getInterestList(),
+														deputy.getApprovedLaws());
+		this.producer.sendMessage(deputyKafka, topic);
 		
 	}
 	
