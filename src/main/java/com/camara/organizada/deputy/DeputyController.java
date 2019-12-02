@@ -12,6 +12,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.camara.organizada.kafka.Producer;
+
 
 @RestController
 @RequestMapping("/deputy")
@@ -20,11 +22,15 @@ public class DeputyController {
 	@Autowired
 	private DeputyService deputyService;
 	
+	@Autowired
+	private Producer producer = new Producer();
+	
 	
 	@PostMapping("/user/{person_dni}")
 	public ResponseEntity<Deputy> registerDeputy(@RequestBody DeputyDto deputyDto, @PathVariable String person_dni ) throws ServletException, ParseException{
 		Deputy registredDeputy = deputyService.registerDeputy(deputyDto, person_dni);
-		
+		String topic = "deputy_topic";
+		this.producer.sendMessage(registredDeputy, topic);
 		return new ResponseEntity<Deputy>(registredDeputy, HttpStatus.CREATED);
 		
 	}
