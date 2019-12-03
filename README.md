@@ -26,6 +26,20 @@ mvn spring-boot:run
 Resultados:
 ![alt text](https://i.imgur.com/ZBXSKfa.png)
 
+5. No câmara organizada, existe a opção de fornecer dados para um servidor [Kafka](https://kafka.apache.org/)(Publisher). Atualmente apenas dados dos deputados registrados são enviados. A utilização é feita da seguinte maneira:
+
+Antes de executar o câmara organizada, entre na pasta do kafka disponível no repositório e execute os seguintes comandos para subir os servidores do zookeeper/kafka.
+
+```
+bin/zookeeper-server-start.sh config/zookeeper.properties
+```
+
+```
+bin/kafka-server-start.sh config/server.properties
+```
+
+Após ter o servidor do Kafka executando, execute o servidor do câmara organizada e toda vez que um novo deputado for registrado, ele será enviado para o servidor Kafka. O câmara cidadã é um micro-serviço que também utiliza-se do servidor Kafka (Consumer) para obter esses dados e mostrá-los em tempo real para a população. Para mais detalhes de como executar o câmara cidadã, confira o README.md da pasta cidada.
+
 
 
 ## O Sistema pode ter administrador 
